@@ -1,4 +1,5 @@
 #include "operators/transpose.h"
+#include <optional>
 
 namespace infini
 {
@@ -25,16 +26,24 @@ namespace infini
     optional<vector<Shape>> TransposeObj::inferShape(const TensorVec &inputs)
     {
         const auto A = inputs[0];
-        auto input_dim = A->getDims();
-        auto output_dim = input_dim;
-        int rank = A->getRank();
+        size_t rank = A->getRank();
+        vector<Shape> shapes;
+
+        for (auto &input : inputs) {
+            auto input_dim = input->getDims();
+            auto output_dim = input_dim;
+            for (size_t i = 0; i < rank; ++i) {
+                output_dim[i] = input_dim[transposePermute[i]];
+            }
+            shapes.push_back(output_dim);
+        }
 
         // =================================== 作业 ===================================
         // TODO：修改 output_dim，返回正确的 transpose 后的 shape
         // REF: https://onnx.ai/onnx/operators/onnx__Transpose.html#transpose-21
         // =================================== 作业 ===================================
 
-        return std::nullopt;
+        return std::make_optional(shapes);
     }
 
     std::string TransposeObj::toString() const
