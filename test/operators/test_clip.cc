@@ -4,6 +4,7 @@
 #include "operators/unary.h"
 
 #include "test.h"
+#include <iostream>
 
 namespace infini {
 

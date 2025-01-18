@@ -81,7 +81,7 @@ function(build_test files)
     get_filename_component(testname ${testsourcefile} NAME_WE)
     add_executable(${testname} ${testsourcefile})
     target_link_libraries(${testname} InfiniTensor GTest::gtest_main)
-    add_test(NAME ${testname} COMMAND ${testname})
+    add_test(NAME ${testname} COMMAND ${testname} --gtest_color=yes)
   endforeach(testsourcefile ${TEST_SOURCES})
 endfunction()
 
